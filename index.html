@@ -1,0 +1,1158 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+    />
+    <meta name="theme-color" content="#f5f2e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="小迹打卡" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="description" content="记录每一次坚持，见证每天的小小进步。" />
+    <title>小迹打卡</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link rel="stylesheet" href="./styles.css?v=33" />
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <div class="app-wallpaper" id="appWallpaper" aria-hidden="true">
+        <div class="wallpaper-motion" id="wallpaperMotion"></div>
+        <div class="wallpaper-shine"></div>
+      </div>
+      <main class="app-main" id="appMain">
+        <section class="page is-active" id="todayPage" data-page="today" aria-label="今日打卡">
+          <header class="topbar">
+            <div>
+              <p class="eyebrow" id="dateLabel">10月26日 · 星期一</p>
+              <h1 class="greeting" id="greeting">早上好，今天也要动起来</h1>
+            </div>
+            <button class="avatar-button" id="avatarButton" type="button" aria-label="打开个人中心">
+              <span class="avatar-aura" aria-hidden="true"></span>
+              <span id="avatarText">迹</span>
+              <i class="online-dot" aria-hidden="true"></i>
+              <span class="avatar-camera" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 8h4l1.5-2h5L16 8h4v11H4V8Z"></path>
+                  <circle cx="12" cy="13" r="3"></circle>
+                </svg>
+              </span>
+            </button>
+          </header>
+
+          <section class="hero-card" id="heroCard" aria-label="今日完成情况">
+            <div class="hero-content">
+              <div class="hero-kicker">
+                <span class="spark-dot" aria-hidden="true"></span>
+                <span id="heroKicker">今日正在加载</span>
+              </div>
+              <h2 id="heroTitle">迈出第一步，<br />状态就会跟着来。</h2>
+              <p id="heroSubtitle">完成任意一项，就算今天没有白过。</p>
+            </div>
+            <div class="progress-orbit" id="progressOrbit" aria-label="今日进度">
+              <svg viewBox="0 0 120 120" role="img" aria-hidden="true">
+                <circle class="orbit-track" cx="60" cy="60" r="50"></circle>
+                <circle class="orbit-fill" id="orbitFill" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="orbit-copy">
+                <strong id="progressPercent">0%</strong>
+                <span id="progressCount">0 / 4</span>
+              </div>
+            </div>
+            <div class="hero-stats">
+              <div>
+                <span class="mini-icon fire" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M13.2 2.6c.5 3.1-1.8 4.1-1.8 6.1 0 1.3.8 2.1 1.9 2.1 2 0 2.8-2.2 2.4-4.1 2.6 1.9 4.2 4.7 3.7 7.8-.6 4.2-3.8 6.9-7.5 6.9-4.1 0-7.4-3.1-7.4-7.3 0-4.6 3.2-8.7 8.7-11.5Z" />
+                  </svg>
+                </span>
+                <p><strong id="streakValue">0</strong> 天</p>
+                <span>连续坚持</span>
+              </div>
+              <div class="stat-divider" aria-hidden="true"></div>
+              <div>
+                <span class="mini-icon bolt" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="m13.2 2-8 12h6L10.8 22l8-12h-6l.4-8Z" />
+                  </svg>
+                </span>
+                <p><strong id="pointsValue">0</strong> 能量</p>
+                <span>本周积累</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="week-section" aria-labelledby="weekHeading">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">THIS WEEK</p>
+                <h2 id="weekHeading">本周节奏</h2>
+              </div>
+              <span class="week-summary" id="weekSummary">新的一周</span>
+            </div>
+            <div class="week-strip" id="weekStrip"></div>
+          </section>
+
+          <section class="intention-section" aria-labelledby="intentionHeading">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">SELF DISCIPLINE</p>
+                <h2 id="intentionHeading">今日自律</h2>
+              </div>
+              <button class="text-button" id="editIntentionButton" type="button">设定目标</button>
+            </div>
+            <div class="intention-card" id="intentionCard">
+              <div class="intention-symbol" aria-hidden="true">✦</div>
+              <div class="intention-copy">
+                <small>今天想守住的一件事</small>
+                <h3 id="intentionText">点击设定今天的自律目标</h3>
+                <p id="intentionHint">例如：少刷手机 30 分钟、完成一次复盘。</p>
+              </div>
+              <button class="intention-check" id="intentionCheckButton" type="button" aria-label="完成今日自律目标">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7.8"></path></svg>
+              </button>
+            </div>
+          </section>
+
+          <section class="student-zone" aria-labelledby="studentHeading">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">STUDY SPACE</p>
+                <h2 id="studentHeading">学生今日</h2>
+              </div>
+              <span class="student-badge">专注模式</span>
+            </div>
+            <div class="student-focus-card">
+              <div class="student-focus-copy">
+                <p class="focus-eyebrow"><span></span>ONE FOCUS AT A TIME</p>
+                <h3 id="focusTitle">留一小段时间给学习</h3>
+                <p id="focusSubtitle">关掉通知，专心完成眼前这一页。</p>
+                <div class="focus-controls">
+                  <button class="focus-start" id="focusButton" type="button">开始专注</button>
+                  <button class="focus-reset" id="focusResetButton" type="button" aria-label="重置专注计时">重置</button>
+                </div>
+              </div>
+              <div class="focus-dial" id="focusDial" style="--focus-progress:0deg" aria-label="专注倒计时">
+                <span class="focus-dial-inner">
+                  <strong id="focusTimer">25:00</strong>
+                  <small>FOCUS</small>
+                </span>
+              </div>
+              <div class="study-presets" id="studyPresets">
+                <button type="button" data-study-template="vocab"><span>📖</span>背单词</button>
+                <button type="button" data-study-template="homework"><span>✍️</span>完成作业</button>
+                <button type="button" data-study-template="review"><span>🧠</span>复习错题</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="habits-section" aria-labelledby="habitsHeading">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">TODAY</p>
+                <h2 id="habitsHeading">今天做什么</h2>
+              </div>
+              <button class="text-button" id="addHabitButton" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                添加
+              </button>
+            </div>
+            <div class="habit-list" id="habitList"></div>
+          </section>
+
+          <blockquote class="daily-quote">
+            <span class="quote-mark">“</span>
+            <p id="dailyQuote">慢一点没关系，只要方向是对的。</p>
+            <span class="quote-line" aria-hidden="true"></span>
+          </blockquote>
+        </section>
+
+        <section class="page" id="teamPage" data-page="team" aria-label="一起打卡">
+          <header class="subpage-header team-page-header">
+            <div>
+              <p class="section-kicker">BETTER TOGETHER</p>
+              <h1>一起坚持</h1>
+            </div>
+            <button class="icon-button" id="teamHeaderButton" type="button" aria-label="分享打卡小组">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="18" cy="5" r="2.5"></circle>
+                <circle cx="6" cy="12" r="2.5"></circle>
+                <circle cx="18" cy="19" r="2.5"></circle>
+                <path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5"></path>
+              </svg>
+            </button>
+          </header>
+
+          <div id="teamEmptyState">
+            <section class="team-welcome" id="teamWelcome">
+              <button class="team-avatar-stack" id="teamAvatarStack" type="button" aria-label="创建打卡小组">
+                <span style="--avatar-bg:#dced62">你</span>
+                <span style="--avatar-bg:#f39d78">同</span>
+                <span style="--avatar-bg:#a9d9e8">事</span>
+                <i>+</i>
+              </button>
+              <p class="team-welcome-kicker">给坚持加一点陪伴</p>
+              <h2>一个人开始，<br />一群人走得更远。</h2>
+              <p>建一个打卡小组，把链接发给同事。大家不需要注册，打开就能加入，一起看见彼此今天的进度。</p>
+              <div class="team-welcome-actions">
+                <button class="primary-button" id="createTeamButton" type="button">创建打卡小组</button>
+                <button class="secondary-button" id="joinTeamButton" type="button">输入邀请码加入</button>
+              </div>
+            </section>
+
+            <section class="team-how-section" aria-labelledby="teamHowTitle">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">HOW IT WORKS</p>
+                  <h2 id="teamHowTitle">三步一起打卡</h2>
+                </div>
+              </div>
+              <div class="team-how-list">
+                <div><span>01</span><strong>创建小组</strong><p>给自己和同事起一个共同目标。</p></div>
+                <div><span>02</span><strong>分享链接</strong><p>发到群里，邀请码会自动带上。</p></div>
+                <div><span>03</span><strong>互相看见</strong><p>今日进度、排行和动态实时汇总。</p></div>
+              </div>
+            </section>
+          </div>
+
+          <div id="teamJoinedState" hidden>
+            <section class="team-banner" id="teamBanner">
+              <div class="team-banner-top">
+                <div class="team-mark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 19c-.5-3.1 1.6-5 4-5s4.5 1.9 4 5"></path>
+                    <circle cx="12" cy="8" r="3.2"></circle>
+                    <path d="M4.5 18.5c-.4-2.4.8-4.2 2.8-4.8M19.5 18.5c.4-2.4-.8-4.2-2.8-4.8"></path>
+                  </svg>
+                </div>
+                <div class="team-banner-copy">
+                  <span>我们的打卡小组</span>
+                  <h2 id="teamName">一起变好</h2>
+                </div>
+                <span class="team-live-dot"><i></i>实时</span>
+              </div>
+              <div class="team-invite-row">
+                <div>
+                  <span>邀请码</span>
+                  <strong id="teamInviteCode">------</strong>
+                </div>
+                <button id="copyTeamCodeButton" type="button">复制邀请码</button>
+              </div>
+              <button class="team-share-button" id="shareTeamButton" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="18" cy="5" r="2.5"></circle>
+                  <circle cx="6" cy="12" r="2.5"></circle>
+                  <circle cx="18" cy="19" r="2.5"></circle>
+                  <path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5"></path>
+                </svg>
+                分享链接，邀请同事加入
+              </button>
+            </section>
+
+            <section class="team-pulse">
+              <div><span>今日完成</span><strong id="teamTodayCount">0</strong><small>项</small></div>
+              <div><span>今日参与</span><strong id="teamActiveCount">0 / 0</strong><small>人</small></div>
+              <div><span>本周能量</span><strong id="teamWeekCount">0</strong><small>点</small></div>
+            </section>
+
+            <div class="team-sync-state" id="teamSyncState">
+              <span class="sync-dot"></span>
+              <span id="teamSyncText">正在同步小组进度</span>
+              <button type="button" id="refreshTeamButton">刷新</button>
+            </div>
+
+            <div class="team-presence-bar" id="teamPresenceBar">
+              <span class="presence-dot" aria-hidden="true"></span>
+              <span class="presence-copy">
+                <strong id="teamPresenceTitle">你当前显示为在线</strong>
+                <small>在线仅代表应用正打开，不代表已打卡</small>
+              </span>
+              <button type="button" id="teamPresenceButton">隐藏在线</button>
+            </div>
+
+            <section class="team-spark-card" aria-labelledby="teamSparkTitle">
+              <div class="team-spark-flame" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M13.2 2.6c.5 3.1-1.8 4.1-1.8 6.1 0 1.3.8 2.1 1.9 2.1 2 0 2.8-2.2 2.4-4.1 2.6 1.9 4.2 4.7 3.7 7.8-.6 4.2-3.8 6.9-7.5 6.9-4.1 0-7.4-3.1-7.4-7.3 0-4.6 3.2-8.7 8.7-11.5Z" />
+                </svg>
+              </div>
+              <div class="team-spark-copy">
+                <p id="teamSparkKicker">TODAY'S SPARK</p>
+                <h2 id="teamSparkTitle">今天的火花还在路上</h2>
+                <span id="teamSparkDescription">至少两位同事完成打卡，就能一起点亮。</span>
+              </div>
+              <div class="team-spark-days">
+                <strong id="teamSparkDays">0</strong>
+                <span>连续天数</span>
+              </div>
+            </section>
+
+            <section class="team-ranking-section" aria-labelledby="teamRankingTitle">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">TODAY'S BOARD</p>
+                  <h2 id="teamRankingTitle">今日同行榜</h2>
+                </div>
+                <span class="team-member-count" id="teamMemberCount">0 位成员</span>
+              </div>
+              <div class="team-ranking" id="teamRanking"></div>
+            </section>
+
+            <section class="team-chat-section" aria-labelledby="teamChatTitle">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">TEAM CHAT</p>
+                  <h2 id="teamChatTitle">互相打气</h2>
+                </div>
+                <span class="team-chat-live"><i></i>小组频道</span>
+              </div>
+              <div class="chat-quick-actions" id="chatQuickActions">
+                <button type="button" data-quick-chat="今天也要一起坚持 🔥">🔥 一起坚持</button>
+                <button type="button" data-quick-chat="太棒了，继续保持 👏">👏 太棒了</button>
+                <button type="button" data-quick-chat="累了就歇一下，明天继续 ☕">☕ 歇一下</button>
+              </div>
+              <div class="team-chat-panel">
+                <div class="team-chat-messages" id="teamChatMessages"></div>
+                <div class="direct-emoji-panel group-emoji-panel" id="groupEmojiPanel" hidden>
+                  <div class="emoji-tabs" id="groupEmojiTabs">
+                    <button class="is-active" type="button" data-group-emoji-tab="faces">表情</button>
+                    <button type="button" data-group-emoji-tab="hands">手势</button>
+                    <button type="button" data-group-emoji-tab="hearts">爱心</button>
+                    <button type="button" data-group-emoji-tab="animals">动物</button>
+                    <button type="button" data-group-emoji-tab="life">日常</button>
+                    <button type="button" data-group-emoji-tab="custom">我的</button>
+                  </div>
+                  <div class="emoji-grid" id="groupEmojiGrid"></div>
+                  <div class="custom-sticker-footer">
+                    <span>群聊同样支持自己添加的表情图</span>
+                    <button type="button" id="groupUploadStickerButton">＋ 添加表情</button>
+                  </div>
+                </div>
+                <form class="team-chat-form group-composer" id="teamChatForm">
+                  <button class="composer-tool-button" id="groupEmojiButton" type="button" aria-label="打开群聊表情">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 10h.01M15.5 10h.01M8.5 14c.8 1.2 2 1.8 3.5 1.8s2.7-.6 3.5-1.8"></path></svg>
+                  </button>
+                  <input id="teamChatInput" maxlength="160" placeholder="和同事说句话…" autocomplete="off" />
+                  <button class="composer-tool-button" id="groupImageButton" type="button" aria-label="发送相册图片">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="m7 15 3-3 2.5 2.5L15 12l3 4M16 9h.01"></path></svg>
+                  </button>
+                  <button class="direct-send-button" id="teamChatSendButton" type="submit" aria-label="发送消息">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 3-7.5 18-3-7.5L3 10.5 21 3Z"></path><path d="m10.5 13.5 4-4"></path></svg>
+                  </button>
+                </form>
+                <input type="file" id="groupImageFile" accept="image/*" hidden />
+              </div>
+            </section>
+
+            <section class="team-feed-section" aria-labelledby="teamFeedTitle">
+              <div class="section-heading compact">
+                <div>
+                  <p class="section-kicker">TEAM MOMENTS</p>
+                  <h2 id="teamFeedTitle">小组动态</h2>
+                </div>
+              </div>
+              <div class="team-feed" id="teamFeed"></div>
+            </section>
+
+            <button class="ghost-danger team-leave-button" id="leaveTeamButton" type="button">退出当前打卡小组</button>
+          </div>
+        </section>
+
+        <section class="page" id="statsPage" data-page="stats" aria-label="打卡记录">
+          <header class="subpage-header">
+            <div>
+              <p class="section-kicker">MY JOURNEY</p>
+              <h1>坚持的痕迹</h1>
+            </div>
+            <button class="icon-button" id="statsMenuButton" type="button" aria-label="查看统计说明">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 11v5M12 8h.01"></path>
+              </svg>
+            </button>
+          </header>
+
+          <section class="stats-overview" id="statsOverview">
+            <div class="stats-big">
+              <span>本月完成</span>
+              <strong id="monthlyCompleted">0<small>次</small></strong>
+            </div>
+            <div class="stats-side">
+              <div>
+                <span>最长连续</span>
+                <strong><span id="bestStreak">0</span> 天</strong>
+              </div>
+              <div>
+                <span>完成率</span>
+                <strong id="monthlyRate">0%</strong>
+              </div>
+            </div>
+            <div class="stats-decoration" aria-hidden="true"></div>
+          </section>
+
+          <section class="chart-section">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">LAST 7 DAYS</p>
+                <h2>最近七天</h2>
+              </div>
+              <span class="chart-average" id="weekAverage">日均 0 项</span>
+            </div>
+            <div class="bar-chart" id="barChart" aria-label="最近七天打卡柱状图"></div>
+          </section>
+
+          <section class="calendar-section">
+            <div class="calendar-head">
+              <button class="calendar-arrow" id="prevMonth" type="button" aria-label="上个月">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+              </button>
+              <h2 id="calendarTitle">2026年10月</h2>
+              <button class="calendar-arrow" id="nextMonth" type="button" aria-label="下个月">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span
+              ><span>六</span><span>日</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend">
+              <span><i class="legend-dot level-0"></i>未打卡</span>
+              <span><i class="legend-dot level-1"></i>已开始</span>
+              <span><i class="legend-dot level-2"></i>全部完成</span>
+            </div>
+          </section>
+
+          <section class="recent-section">
+            <div class="section-heading compact">
+              <div>
+                <p class="section-kicker">RECENT</p>
+                <h2>最近记录</h2>
+              </div>
+            </div>
+            <div class="recent-list" id="recentList"></div>
+          </section>
+        </section>
+
+        <section class="page" id="profilePage" data-page="profile" aria-label="我的">
+          <header class="subpage-header profile-header">
+            <div>
+              <p class="section-kicker">MY SPACE</p>
+              <h1>我的日常</h1>
+            </div>
+            <button class="icon-button" id="profileSettingsButton" type="button" aria-label="编辑个人信息">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 20h4l10.5-10.5a2.8 2.8 0 0 0-4-4L4 16v4Z"></path>
+                <path d="m13.5 6.5 4 4"></path>
+              </svg>
+            </button>
+          </header>
+
+          <section class="profile-card" id="profileCard">
+            <video class="profile-card-video" id="profileCardVideo" muted loop playsinline></video>
+            <button class="profile-video-sound" id="profileVideoSoundButton" type="button">开启声音</button>
+            <button class="profile-avatar" id="profileAvatar" type="button" aria-label="更换头像">
+              <span class="avatar-aura" aria-hidden="true"></span>
+              <span id="profileAvatarText">迹</span>
+            </button>
+            <div class="profile-copy">
+              <p class="profile-label" id="profileStatus">我的状态 · 专注中</p>
+              <h2 id="profileName">打卡人</h2>
+              <p id="profileJoinDate">从 2026年10月26日 开始记录</p>
+              <p class="profile-motto" id="profileMotto">把普通的日子，过成自己的作品。</p>
+            </div>
+            <div class="profile-stamp" aria-hidden="true">KEEP<br />GOING</div>
+          </section>
+
+          <div class="profile-metrics" id="profileMetrics">
+            <div><strong>0</strong><span>累计打卡</span></div>
+            <div><strong>0</strong><span>连续天数</span></div>
+            <div><strong>0</strong><span>活跃天数</span></div>
+          </div>
+
+          <section class="settings-group">
+            <div class="settings-title"><h2>个性空间</h2></div>
+            <button class="settings-row customize-entry" id="customizeButton" type="button">
+              <span class="settings-icon palette">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3a9 9 0 1 0 0 18h1.4a1.8 1.8 0 0 0 .5-3.5 1.8 1.8 0 0 1 .5-3.5H17a4 4 0 0 0 4-4C21 6.1 17 3 12 3Z"></path>
+                  <circle cx="7.5" cy="10" r=".8"></circle>
+                  <circle cx="10" cy="6.8" r=".8"></circle>
+                  <circle cx="15" cy="7" r=".8"></circle>
+                </svg>
+              </span>
+              <span class="settings-copy"><strong>更换壁纸与小名片</strong><small>做一张更像自己的每日主页</small></span>
+              <span class="install-badge" id="customizeBadge">可装扮</span>
+            </button>
+          </section>
+
+          <section class="settings-group">
+            <div class="settings-title">
+              <h2>我的习惯</h2>
+              <button class="text-button" id="manageHabitsButton" type="button">管理</button>
+            </div>
+            <div class="manage-habit-list" id="manageHabitList"></div>
+            <button class="add-habit-row" id="profileAddHabit" type="button">
+              <span class="add-circle">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+              </span>
+              <span>添加一个新习惯</span>
+              <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          </section>
+
+          <section class="settings-group">
+            <div class="settings-title"><h2>应用与数据</h2></div>
+            <button class="settings-row" id="installAppButton" type="button">
+              <span class="settings-icon install">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="5" y="2.5" width="14" height="19" rx="3"></rect>
+                  <path d="M10 18.5h4M12 6v7m-3-3 3 3 3-3"></path>
+                </svg>
+              </span>
+              <span class="settings-copy"><strong>安装到手机</strong><small>像 App 一样从桌面打开</small></span>
+              <span class="install-badge" id="installBadge">可安装</span>
+            </button>
+            <button class="settings-row" id="exportButton" type="button">
+              <span class="settings-icon backup">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3v12m-4-4 4 4 4-4"></path>
+                  <path d="M5 17v3h14v-3"></path>
+                </svg>
+              </span>
+              <span class="settings-copy"><strong>导出备份</strong><small>把打卡数据保存到文件</small></span>
+              <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+            <button class="settings-row" id="importButton" type="button">
+              <span class="settings-icon restore">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21V9m-4 4 4-4 4 4"></path>
+                  <path d="M5 7V4h14v3"></path>
+                </svg>
+              </span>
+              <span class="settings-copy"><strong>导入备份</strong><small>从备份文件恢复记录</small></span>
+              <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+            <input type="file" id="importFile" accept="application/json,.json" hidden />
+          </section>
+
+          <section class="settings-group">
+            <div class="settings-title"><h2>偏好</h2></div>
+            <label class="settings-row toggle-row">
+              <span class="settings-icon haptic">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="7" y="3" width="10" height="18" rx="2"></rect>
+                  <path d="M10 7h4M10 17h4"></path>
+                </svg>
+              </span>
+              <span class="settings-copy"><strong>震动反馈</strong><small>打卡时轻轻震一下</small></span>
+              <input type="checkbox" id="hapticToggle" checked />
+              <span class="switch" aria-hidden="true"></span>
+            </label>
+            <button class="settings-row" id="clearButton" type="button">
+              <span class="settings-icon clear">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5m4-5v5"></path>
+                </svg>
+              </span>
+              <span class="settings-copy"><strong>清空打卡记录</strong><small>习惯设置会保留</small></span>
+              <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          </section>
+
+          <p class="profile-footer">小迹打卡 · 把普通的日子，过成自己的作品</p>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="主导航">
+        <button class="nav-item is-active" type="button" data-nav="today" aria-current="page">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m4 11 8-7 8 7v9h-6v-6h-4v6H4v-9Z"></path>
+            </svg>
+          </span>
+          <span>今日</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="team">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="8.5" cy="8" r="3"></circle>
+              <circle cx="16.5" cy="9.5" r="2.4"></circle>
+              <path d="M3 19c.4-3.5 2.3-5.5 5.5-5.5s5.1 2 5.5 5.5M14 14.5c2.6-.3 4.7 1.2 5 4.5"></path>
+            </svg>
+          </span>
+          <span>同行</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="stats">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 19V9m7 10V5m7 14v-7"></path>
+            </svg>
+          </span>
+          <span>记录</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="profile">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4.5 21c.6-4.1 3.4-6 7.5-6s6.9 1.9 7.5 6"></path>
+            </svg>
+          </span>
+          <span>我的</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+    <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
+    <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+
+    <section class="bottom-sheet detail-sheet" id="habitDetailSheet" role="dialog" aria-modal="true" aria-labelledby="detailTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <div class="detail-icon" id="detailIcon">🏃</div>
+      <p class="sheet-kicker">TODAY'S MOMENT</p>
+      <h2 id="detailTitle">运动</h2>
+      <p class="detail-description" id="detailDescription">每一步都算数，今天也为自己动起来。</p>
+      <div class="detail-progress-wrap">
+        <div class="detail-number"><strong id="detailCurrent">0</strong><span id="detailUnit">分钟</span></div>
+        <span class="detail-target" id="detailTarget">目标 30 分钟</span>
+      </div>
+      <div class="detail-track"><span id="detailTrackFill"></span></div>
+      <label class="note-field" for="detailNote">
+        <span>今天做了什么 <small>选填</small></span>
+        <input id="detailNote" maxlength="60" placeholder="例如：跑步 3 公里、练肩" autocomplete="off" />
+      </label>
+      <div class="stepper" id="detailStepper">
+        <button type="button" id="detailMinus" aria-label="减少">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /></svg>
+        </button>
+        <div><strong id="detailStep">+10</strong><span>每次记录</span></div>
+        <button type="button" id="detailPlus" aria-label="增加">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+        </button>
+      </div>
+      <button class="primary-button" id="detailCheckButton" type="button">完成今日打卡</button>
+      <button class="ghost-danger" id="detailResetButton" type="button">重置今天的记录</button>
+    </section>
+
+    <section class="bottom-sheet habit-form-sheet" id="habitFormSheet" role="dialog" aria-modal="true" aria-labelledby="formTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <p class="sheet-kicker">NEW ROUTINE</p>
+      <h2 id="formTitle">添加习惯</h2>
+      <form id="habitForm">
+        <input type="hidden" id="editingHabitId" />
+        <label class="form-label" for="habitName">想坚持什么？</label>
+        <input class="form-input" id="habitName" maxlength="10" placeholder="例如：拉伸、背单词" autocomplete="off" required />
+
+        <span class="form-label">选一个图标</span>
+        <div class="icon-picker" id="iconPicker" role="group" aria-label="选择图标">
+          <button type="button" class="is-selected" data-icon="🏃">🏃</button>
+          <button type="button" data-icon="💪">💪</button>
+          <button type="button" data-icon="🚴">🚴</button>
+          <button type="button" data-icon="🧘">🧘</button>
+          <button type="button" data-icon="💧">💧</button>
+          <button type="button" data-icon="🥗">🥗</button>
+          <button type="button" data-icon="📚">📚</button>
+          <button type="button" data-icon="🌙">🌙</button>
+          <button type="button" data-icon="✍️">✍️</button>
+          <button type="button" data-icon="✨">✨</button>
+        </div>
+
+        <span class="form-label">完成方式</span>
+        <div class="mode-selector">
+          <label>
+            <input type="radio" name="habitMode" value="count" checked />
+            <span><strong>累计记录</strong><small>例如喝 8 杯水</small></span>
+          </label>
+          <label>
+            <input type="radio" name="habitMode" value="boolean" />
+            <span><strong>一次完成</strong><small>例如早睡、冥想</small></span>
+          </label>
+        </div>
+
+        <div id="countFields">
+          <div class="form-two-cols">
+            <label>
+              <span class="form-label">每日目标</span>
+              <input class="form-input" id="habitTarget" type="number" min="1" max="999" value="30" inputmode="numeric" />
+            </label>
+            <label>
+              <span class="form-label">每次记录</span>
+              <input class="form-input" id="habitStep" type="number" min="1" max="999" value="10" inputmode="numeric" />
+            </label>
+          </div>
+          <label>
+            <span class="form-label">单位</span>
+            <input class="form-input" id="habitUnit" maxlength="4" value="分钟" placeholder="分钟 / 杯 / 次" />
+          </label>
+        </div>
+
+        <span class="form-label">习惯颜色</span>
+        <div class="color-picker" id="colorPicker" role="group" aria-label="选择习惯颜色">
+          <button type="button" class="is-selected lime" data-color="lime" aria-label="青柠色"></button>
+          <button type="button" class="coral" data-color="coral" aria-label="珊瑚色"></button>
+          <button type="button" class="sky" data-color="sky" aria-label="天空色"></button>
+          <button type="button" class="lilac" data-color="lilac" aria-label="丁香色"></button>
+          <button type="button" class="sand" data-color="sand" aria-label="沙色"></button>
+        </div>
+
+        <button class="primary-button form-submit" type="submit">保存这个习惯</button>
+      </form>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="profileFormSheet" role="dialog" aria-modal="true" aria-labelledby="profileFormTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <p class="sheet-kicker">A SMALL INTRO</p>
+      <h2 id="profileFormTitle">怎么称呼你？</h2>
+      <p class="sheet-description">名字只保存在这台手机上，用来让每次打开更亲切。</p>
+      <form id="profileForm">
+        <label class="form-label" for="profileNameInput">你的昵称</label>
+        <input class="form-input" id="profileNameInput" maxlength="12" placeholder="输入昵称" required />
+        <label class="form-label" for="profileStatusInput">我的当前状态</label>
+        <input class="form-input" id="profileStatusInput" maxlength="24" placeholder="例如：心情愉悦、正在听歌、准备睡觉" />
+        <div class="status-suggestions" id="statusSuggestions">
+          <button type="button" data-profile-status="认真学习">认真学习</button>
+          <button type="button" data-profile-status="心情愉悦">心情愉悦</button>
+          <button type="button" data-profile-status="正在听歌">正在听歌</button>
+          <button type="button" data-profile-status="准备睡觉">准备睡觉</button>
+          <button type="button" data-profile-status="运动充电">运动充电</button>
+        </div>
+        <label class="form-label" for="profileMottoInput">我的签名</label>
+        <input class="form-input" id="profileMottoInput" maxlength="36" placeholder="例如：每天进步一点点" />
+        <button class="primary-button form-submit" type="submit">保存</button>
+      </form>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="intentionFormSheet" role="dialog" aria-modal="true" aria-labelledby="intentionFormTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <p class="sheet-kicker">TODAY'S FOCUS</p>
+      <h2 id="intentionFormTitle">今天自律什么？</h2>
+      <p class="sheet-description">为目标写得具体一点，晚上回来看看有没有做到。</p>
+      <form id="intentionForm">
+        <label class="form-label" for="intentionInput">今日自律目标</label>
+        <input class="form-input" id="intentionInput" maxlength="40" placeholder="例如：刷手机不超过 30 分钟" required />
+        <div class="intention-suggestions">
+          <button type="button" data-intention="少刷手机 30 分钟">少刷手机</button>
+          <button type="button" data-intention="完成一次今日复盘">今日复盘</button>
+          <button type="button" data-intention="专注学习 45 分钟">专注学习</button>
+          <button type="button" data-intention="完成今天的正事">完成正事</button>
+        </div>
+        <button class="primary-button form-submit" type="submit">保存今日目标</button>
+      </form>
+    </section>
+
+    <section class="bottom-sheet customize-sheet" id="customizeSheet" role="dialog" aria-modal="true" aria-labelledby="customizeTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <p class="sheet-kicker">MAKE IT YOURS</p>
+      <h2 id="customizeTitle">装扮你的小迹</h2>
+      <p class="sheet-description">换一张喜欢的壁纸，再把照片放进专属小名片。</p>
+      <div class="growth-unlock-summary">
+        <span class="growth-spark">✦</span>
+        <span><small>MY GROWTH</small><strong id="growthSummaryText">累计打卡 0 天 · 运动 0 分钟</strong></span>
+        <i>成长解锁</i>
+      </div>
+
+      <span class="form-label customize-label">应用壁纸</span>
+      <div class="wallpaper-presets" id="wallpaperPresets" role="group" aria-label="选择壁纸">
+        <button class="wallpaper-swatch paper is-selected" type="button" data-wallpaper="paper"><span>原纸</span></button>
+        <button class="wallpaper-swatch sunrise" type="button" data-wallpaper="sunrise"><span>晨光</span></button>
+        <button class="wallpaper-swatch lime" type="button" data-wallpaper="lime"><span>青柠</span></button>
+        <button class="wallpaper-swatch coast" type="button" data-wallpaper="coast"><span>海岸</span></button>
+        <button class="wallpaper-swatch dusk" type="button" data-wallpaper="dusk"><span>蓝调</span></button>
+      </div>
+      <span class="form-label customize-label">动态成长壁纸</span>
+      <div class="motion-wallpapers" id="motionWallpapers" role="group" aria-label="选择动态壁纸">
+        <button class="motion-wallpaper flow is-unlocked" type="button" data-motion-wallpaper="flow">
+          <span class="motion-thumb"><i></i><i></i></span>
+          <strong>流光青焰</strong>
+          <small>新用户可用</small>
+        </button>
+        <button class="motion-wallpaper bagua" type="button" data-motion-wallpaper="bagua">
+          <span class="motion-thumb"><i></i><i></i></span>
+          <strong>太极星阵</strong>
+          <small data-unlock-text="bagua">打卡 7 天解锁</small>
+        </button>
+        <button class="motion-wallpaper ignite" type="button" data-motion-wallpaper="ignite">
+          <span class="motion-thumb"><i></i><i></i></span>
+          <strong>金光燃动</strong>
+          <small data-unlock-text="ignite">打卡 3 天解锁</small>
+        </button>
+      </div>
+      <button class="upload-card" id="uploadWallpaperButton" type="button">
+        <span class="upload-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 13l2.5-3 3 4 2-2L20 17M16 8h.01"></path></svg>
+        </span>
+        <span><strong>从相册选择应用壁纸</strong><small>建议 1080 × 2400 px · 竖屏 9:20</small></span>
+        <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+      </button>
+      <input type="file" id="wallpaperFile" accept="image/*" hidden />
+      <span class="form-label customize-label">四个板块名片 · 各自上传、独立裁剪</span>
+      <div class="section-cover-grid">
+        <div class="section-cover-item">
+          <span class="section-cover-preview" id="todayCoverPreview"></span>
+          <div><strong>今日板块名片</strong><small>主背景 · 建议 1080 × 900</small></div>
+          <button id="uploadHeroImageButton" type="button">上传</button>
+          <button class="section-cover-clear" id="clearHeroImageButton" type="button">清除</button>
+        </div>
+        <div class="section-cover-item">
+          <span class="section-cover-preview" id="teamCoverPreview"></span>
+          <div><strong>同行板块名片</strong><small>建议 1080 × 680 px</small></div>
+          <button id="uploadTeamImageButton" type="button">上传</button>
+          <button class="section-cover-clear" id="clearTeamImageButton" type="button">清除</button>
+        </div>
+        <div class="section-cover-item">
+          <span class="section-cover-preview" id="statsCoverPreview"></span>
+          <div><strong>记录板块名片</strong><small>建议 1080 × 640 px</small></div>
+          <button id="uploadStatsImageButton" type="button">上传</button>
+          <button class="section-cover-clear" id="clearStatsImageButton" type="button">清除</button>
+        </div>
+        <div class="section-cover-item">
+          <span class="section-cover-preview" id="profileCoverPreview"></span>
+          <div><strong>我的板块名片</strong><small>建议 1080 × 608 px</small></div>
+          <button id="uploadCardImageButton" type="button">上传</button>
+          <button class="section-cover-clear" id="clearCardImageButton" type="button">清除</button>
+        </div>
+      </div>
+      <p class="cover-unlock-note" id="heroCoverUnlockNote">今日主背景：打卡 3 天或运动 90 分钟解锁</p>
+      <input type="file" id="heroImageFile" accept="image/*" hidden />
+      <input type="file" id="teamImageFile" accept="image/*" hidden />
+      <input type="file" id="statsImageFile" accept="image/*" hidden />
+      <input type="file" id="cardImageFile" accept="image/*" hidden />
+
+      <span class="form-label customize-label">头像照片 · 建议 512 × 512 px（正方形 1:1）</span>
+      <div class="namecard-preview" id="namecardPreview">
+        <div class="namecard-photo" id="namecardPhoto"><span id="namecardInitial">迹</span></div>
+        <div>
+          <small>MY DAILY CARD</small>
+          <strong id="namecardName">打卡人</strong>
+          <span id="namecardStatus">我的状态 · 专注中</span>
+        </div>
+        <i>KEEP GOING</i>
+      </div>
+      <div class="photo-actions">
+        <button class="secondary-button" id="uploadProfileImageButton" type="button">从相册选择头像</button>
+        <button class="secondary-button" id="clearProfileImageButton" type="button">使用默认头像</button>
+      </div>
+      <input type="file" id="profileImageFile" accept="image/*" hidden />
+      <span class="form-label customize-label">我的名片动态背景 · MP4 / WebM</span>
+      <button class="upload-card" id="uploadProfileVideoButton" type="button">
+        <span class="upload-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="13" height="14" rx="2"></rect><path d="m16 10 5-3v10l-5-3"></path></svg>
+        </span>
+        <span><strong>上传“我的名片”视频</strong><small>建议 6–15 秒 · 最大 25MB · 自动静音循环</small></span>
+        <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+      </button>
+      <input type="file" id="profileVideoFile" accept="video/mp4,video/webm" hidden />
+      <button class="clear-card-image" id="clearProfileVideoButton" type="button">恢复静态名片背景</button>
+      <div class="reward-cover-panel">
+        <div class="reward-cover-head">
+          <span class="reward-cover-icon">🎁</span>
+          <span><small>PRIVATE REWARD</small><strong>我的成长奖励封面</strong></span>
+          <i id="rewardCoverState">未设置</i>
+        </div>
+        <div class="reward-cover-preview" id="rewardCoverPreview">
+          <span>上传一张喜欢的图片<br />完成指标后自动解锁</span>
+        </div>
+        <div class="reward-progress">
+          <span id="rewardProgressText">当前成长：打卡 0 天 · 运动 0 分钟</span>
+          <strong id="rewardUnlockState">尚未解锁</strong>
+        </div>
+        <label class="reward-select-row" for="rewardRequirementSelect">
+          <span>解锁条件</span>
+          <select id="rewardRequirementSelect">
+            <option value="3:90" selected>打卡 3 天 或 运动 90 分钟</option>
+            <option value="7:150">打卡 7 天 或 运动 150 分钟</option>
+            <option value="14:300">打卡 14 天 或 运动 300 分钟</option>
+            <option value="30:600">打卡 30 天 或 运动 600 分钟</option>
+          </select>
+        </label>
+        <div class="reward-cover-actions">
+          <button id="uploadRewardCoverButton" type="button">上传珍藏图</button>
+          <button id="applyRewardCoverButton" type="button">使用为名片封面</button>
+          <button id="clearRewardCoverButton" type="button" aria-label="移除珍藏图">移除</button>
+        </div>
+        <input type="file" id="rewardCardImageFile" accept="image/*" hidden />
+      </div>
+      <span class="form-label customize-label">头像动态特效</span>
+      <p class="unlock-explain">只显示静止边框，不旋转、不闪动；打卡天数或运动时长满足任意一项即可解锁。</p>
+      <div class="avatar-effect-options" id="avatarEffectOptions" role="group" aria-label="选择头像特效">
+        <button class="avatar-effect-option none is-selected" type="button" data-avatar-effect="none">
+          <span class="effect-orbit"><i>迹</i></span>
+          <span class="effect-label"><strong>默认头像</strong><small>立即使用</small></span>
+        </button>
+        <button class="avatar-effect-option green is-unlocked" type="button" data-avatar-effect="green">
+          <span class="effect-orbit"><i>迹</i></span>
+          <span class="effect-label"><strong>青绿边框</strong><small>立即使用</small></span>
+        </button>
+        <button class="avatar-effect-option blue" type="button" data-avatar-effect="blue">
+          <span class="effect-orbit"><i>迹</i></span>
+          <span class="effect-label"><strong>雾蓝边框</strong><small data-unlock-text="effect-blue">待查看</small></span>
+        </button>
+        <button class="avatar-effect-option gold" type="button" data-avatar-effect="gold">
+          <span class="effect-orbit"><i>迹</i></span>
+          <span class="effect-label"><strong>鎏金边框</strong><small data-unlock-text="effect-gold">待查看</small></span>
+        </button>
+      </div>
+      <button class="primary-button form-submit" type="button" data-close-sheet>完成装扮</button>
+    </section>
+
+    <section class="bottom-sheet small-sheet team-form-sheet" id="teamFormSheet" role="dialog" aria-modal="true" aria-labelledby="teamFormTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <div class="team-form-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <circle cx="8" cy="8" r="3"></circle>
+          <circle cx="16" cy="9" r="2.5"></circle>
+          <path d="M2.8 19c.5-3.6 2.3-5.5 5.2-5.5s4.7 1.9 5.2 5.5M13.5 14.2c2.9-.2 5.1 1.4 5.7 4.8"></path>
+        </svg>
+      </div>
+      <p class="sheet-kicker" id="teamFormKicker">START TOGETHER</p>
+      <h2 id="teamFormTitle">创建打卡小组</h2>
+      <p class="sheet-description" id="teamFormDescription">给小组起个名字，再把邀请链接发给同事。</p>
+      <form id="teamForm">
+        <input type="hidden" id="teamFormMode" value="create" />
+        <div id="teamNameField">
+          <label class="form-label" for="teamNameInput">小组名称</label>
+          <input class="form-input" id="teamNameInput" maxlength="24" placeholder="例如：元气同事打卡组" autocomplete="organization" />
+        </div>
+        <div id="teamCodeField" hidden>
+          <label class="form-label" for="teamCodeInput">邀请码</label>
+          <input class="form-input invite-code-input" id="teamCodeInput" maxlength="6" placeholder="输入 6 位邀请码" autocomplete="off" />
+        </div>
+        <label class="form-label" for="teamMemberNameInput">你的称呼</label>
+        <input class="form-input" id="teamMemberNameInput" maxlength="12" placeholder="同事看到的名字" autocomplete="nickname" required />
+        <p class="form-hint" id="teamFormHint">无需注册，创建后会立即生成分享链接。</p>
+        <button class="primary-button form-submit" id="teamFormSubmit" type="submit">创建并邀请同事</button>
+      </form>
+    </section>
+
+    <section class="bottom-sheet small-sheet avatar-sheet" id="avatarSheet" role="dialog" aria-modal="true" aria-labelledby="avatarSheetTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <div class="avatar-preview-large" id="avatarPreviewLarge">
+        <span id="avatarPreviewInitial">迹</span>
+        <i aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 8h4l1.5-2h5L16 8h4v11H4V8Z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+        </i>
+      </div>
+      <p class="sheet-kicker">YOUR OWN LOOK</p>
+      <h2 id="avatarSheetTitle">换上喜欢的头像</h2>
+      <p class="sheet-description">从手机相册选择一张照片，它会同步用在上方头像、个人名片和小名片里。</p>
+      <button class="primary-button" id="selectAvatarButton" type="button">从手机相册选择</button>
+      <input type="file" id="avatarFile" accept="image/*" hidden />
+      <button class="secondary-button full-width" id="defaultAvatarButton" type="button">使用默认头像</button>
+      <button class="namecard-link" id="openNamecardButton" type="button">查看并编辑我的小名片 <span>→</span></button>
+    </section>
+
+    <section class="bottom-sheet small-sheet member-card-sheet" id="memberCardSheet" role="dialog" aria-modal="true" aria-labelledby="memberCardName" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <div class="member-card-avatar" id="memberCardAvatar">同</div>
+      <p class="sheet-kicker">TEAMMATE CARD</p>
+      <h2 id="memberCardName">同事的名片</h2>
+      <p class="member-card-status" id="memberCardStatus">今天还没有更新状态</p>
+      <p class="member-card-signature" id="memberCardSignature">还没有填写个人签名</p>
+      <div class="member-card-metrics">
+        <div><strong id="memberCardToday">0</strong><span>今日完成</span></div>
+        <div><strong id="memberCardWeek">0</strong><span>本周能量</span></div>
+        <div><strong id="memberCardPresence">离线</strong><span>当前状态</span></div>
+      </div>
+      <div class="member-card-history" id="memberCardHistory"></div>
+      <button class="primary-button" id="memberCardChatButton" type="button">发私信</button>
+    </section>
+
+    <section class="bottom-sheet small-sheet chat-attachment-sheet" id="chatAttachmentSheet" role="dialog" aria-modal="true" aria-labelledby="chatAttachmentTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <p class="sheet-kicker">PHOTO & VIDEO</p>
+      <h2 id="chatAttachmentTitle">发送照片或视频</h2>
+      <p class="sheet-description">可以直接打开手机相机拍摄，也可以从相册选择已有内容。</p>
+      <div class="chat-attachment-grid">
+        <button type="button" id="chatTakePhotoButton"><span>📷</span><strong>拍照</strong><small>打开手机相机</small></button>
+        <button type="button" id="chatRecordVideoButton"><span>🎥</span><strong>录视频</strong><small>直接录制短视频</small></button>
+        <button type="button" id="chatChoosePhotoButton"><span>🖼️</span><strong>相册图片</strong><small>选择已有照片</small></button>
+        <button type="button" id="chatChooseVideoButton"><span>🎬</span><strong>相册视频</strong><small>选择已有视频</small></button>
+      </div>
+    </section>
+    <input type="file" id="chatCameraFile" accept="image/*" capture="environment" hidden />
+    <input type="file" id="chatRecordVideoFile" accept="video/*" capture="environment" hidden />
+    <input type="file" id="chatGalleryPhotoFile" accept="image/*" hidden />
+    <input type="file" id="chatGalleryVideoFile" accept="video/mp4,video/webm,video/quicktime" hidden />
+
+    <section class="bottom-sheet direct-chat-sheet" id="directChatSheet" role="dialog" aria-modal="true" aria-labelledby="directChatTitle" hidden>
+      <header class="direct-chat-topbar">
+        <button class="direct-back-button" type="button" data-close-sheet aria-label="返回">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+        <div class="direct-chat-head">
+          <span class="direct-chat-avatar" id="directChatAvatar">同</span>
+          <span>
+            <small>PRIVATE CHAT</small>
+            <strong id="directChatTitle">和同事聊聊</strong>
+            <em id="directChatStatus">小组同行成员</em>
+          </span>
+        </div>
+        <span class="direct-chat-secure">私聊</span>
+      </header>
+      <div class="team-chat-messages direct-chat-messages" id="directChatMessages"></div>
+      <div class="chat-edit-state" id="chatEditState" hidden>
+        <span>正在编辑已发送的消息</span>
+        <button id="cancelDirectEditButton" type="button">取消编辑</button>
+      </div>
+      <div class="direct-emoji-panel" id="directEmojiPanel" hidden>
+        <div class="emoji-tabs" id="emojiTabs">
+          <button class="is-active" type="button" data-emoji-tab="faces">表情</button>
+          <button type="button" data-emoji-tab="hands">手势</button>
+          <button type="button" data-emoji-tab="hearts">爱心</button>
+          <button type="button" data-emoji-tab="animals">动物</button>
+          <button type="button" data-emoji-tab="life">日常</button>
+          <button type="button" data-emoji-tab="custom">我的</button>
+        </div>
+        <div class="emoji-grid" id="emojiGrid"></div>
+        <div class="custom-sticker-footer">
+          <span>自己添加手机里的表情图，会保存在本机</span>
+          <button type="button" id="uploadStickerButton">＋ 添加表情</button>
+        </div>
+        <input type="file" id="customStickerFile" accept="image/*" hidden />
+      </div>
+      <form class="direct-composer" id="directChatForm">
+        <button class="composer-tool-button" id="emojiButton" type="button" aria-label="打开表情">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 10h.01M15.5 10h.01M8.5 14c.8 1.2 2 1.8 3.5 1.8s2.7-.6 3.5-1.8"></path></svg>
+        </button>
+        <input id="directChatInput" maxlength="160" placeholder="和这位同事说句话…" autocomplete="off" />
+        <button class="composer-tool-button" id="stickerButton" type="button" aria-label="发送自定义表情">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="m7 15 3-3 2.5 2.5L15 12l3 4M16 9h.01"></path></svg>
+        </button>
+        <button class="composer-tool-button" id="directPhotoButton" type="button" aria-label="发送相册图片">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h4l1.5-2h5L16 8h4v11H4V8Z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+        </button>
+        <button class="direct-send-button" id="directChatSendButton" type="submit" aria-label="发送私聊消息">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 3-7.5 18-3-7.5L3 10.5 21 3Z"></path><path d="m10.5 13.5 4-4"></path></svg>
+        </button>
+      </form>
+      <input type="file" id="directPhotoFile" accept="image/*" hidden />
+    </section>
+
+    <section class="bottom-sheet image-editor-sheet" id="imageEditorSheet" role="dialog" aria-modal="true" aria-labelledby="imageEditorTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="取消编辑">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <p class="sheet-kicker">ADJUST YOUR IMAGE</p>
+      <h2 id="imageEditorTitle">调整头像</h2>
+      <p class="sheet-description" id="imageEditorDescription">拖动图片调整位置，滑动滑杆放大或缩小。</p>
+      <div class="image-editor-frame" id="imageEditorFrame">
+        <canvas id="imageEditorCanvas" aria-label="图片裁剪预览"></canvas>
+        <span class="crop-corners" aria-hidden="true"></span>
+      </div>
+      <div class="zoom-control">
+        <span>−</span>
+        <input id="imageZoomRange" type="range" min="100" max="300" value="100" step="1" aria-label="图片缩放" />
+        <span>＋</span>
+      </div>
+      <div class="zoom-meta">
+        <span id="imageZoomLabel">100%</span>
+        <span id="imageOutputSize">输出 512 × 512 px</span>
+      </div>
+      <div class="sticker-text-controls" id="stickerTextControls" hidden>
+        <label class="form-label" for="stickerTextInput">给表情加一句话</label>
+        <input class="form-input" id="stickerTextInput" maxlength="12" placeholder="例如：冲鸭、晚安、太棒了" />
+        <div class="sticker-text-row">
+          <label><span>字号</span><input id="stickerTextSize" type="range" min="20" max="64" value="34" /></label>
+          <div class="sticker-text-colors" id="stickerTextColors">
+            <button class="is-selected" type="button" data-sticker-color="#ffffff" style="--swatch:#fff" aria-label="白色"></button>
+            <button type="button" data-sticker-color="#172d23" style="--swatch:#172d23" aria-label="深绿色"></button>
+            <button type="button" data-sticker-color="#dced62" style="--swatch:#dced62" aria-label="青柠色"></button>
+            <button type="button" data-sticker-color="#ffb34d" style="--swatch:#ffb34d" aria-label="金色"></button>
+          </div>
+        </div>
+      </div>
+      <div class="image-editor-actions">
+        <button class="secondary-button" id="resetImageEditorButton" type="button">居中重置</button>
+        <button class="primary-button" id="saveImageEditorButton" type="button">确认使用</button>
+      </div>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="confirmSheet" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" hidden>
+      <div class="confirm-icon" id="confirmIcon">!</div>
+      <h2 id="confirmTitle">确认操作</h2>
+      <p class="sheet-description" id="confirmDescription"></p>
+      <div class="confirm-actions">
+        <button class="secondary-button" id="confirmCancel" type="button">再想想</button>
+        <button class="danger-button" id="confirmAction" type="button">确认</button>
+      </div>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="installSheet" role="dialog" aria-modal="true" aria-labelledby="installTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <div class="install-phone" aria-hidden="true">
+        <span>迹</span>
+        <i></i>
+      </div>
+      <p class="sheet-kicker">PUT IT ON YOUR HOME SCREEN</p>
+      <h2 id="installTitle">把「小迹」放到桌面</h2>
+      <p class="sheet-description" id="installDescription">
+        在浏览器菜单中点击「添加到主屏幕」或「安装应用」，以后一键即可打开。
+      </p>
+      <button class="primary-button" id="nativeInstallButton" type="button" hidden>立即安装</button>
+      <button class="secondary-button full-width" type="button" data-close-sheet>我知道了</button>
+    </section>
+
+    <section class="bottom-sheet day-detail-sheet" id="dayDetailSheet" role="dialog" aria-modal="true" aria-labelledby="dayDetailTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" type="button" data-close-sheet aria-label="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+      <p class="sheet-kicker" id="dayDetailKicker">DAILY RECORD</p>
+      <h2 id="dayDetailTitle">10月26日</h2>
+      <div class="day-detail-summary" id="dayDetailSummary"></div>
+      <div class="day-detail-list" id="dayDetailList"></div>
+    </section>
+
+    <script src="./app.js?v=33" defer></script>
+  </body>
+</html>
