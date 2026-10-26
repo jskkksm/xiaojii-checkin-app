@@ -1,0 +1,6 @@
+.data
+previews
+README.md
+start-preview.bat
+node_modules
+*.log
