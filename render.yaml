@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: xiaojii-checkin
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATA_DIR
+        value: /data
+    disk:
+      name: xiaojii-data
+      mountPath: /data
+      sizeGB: 2
