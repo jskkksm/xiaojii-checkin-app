@@ -1,0 +1,14 @@
+{
+  "name": "xiaojii-checkin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "面向手机端与同事共享打卡的小迹 PWA",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check app.js && node --check server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
